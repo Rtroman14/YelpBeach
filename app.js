@@ -18,9 +18,20 @@ const commentRoutes = require("./routes/comments"),
     indexRoutes = require("./routes/index");
 
 // mongoose.connect("mongodb://localhost:27017/yelpBeach", { useNewUrlParser: true });
+// mongoose
+//     .connect(
+//         "mongodb+srv://Rtroman14:Ryan1048@cluster0-cgyu2.mongodb.net/test?retryWrites=true&w=majority",
+//         { useNewUrlParser: true, useUnifiedTopology: true }
+//     )
+//     .then(() => {
+//         console.log("Connected to DB!");
+//     })
+//     .catch(err => {
+//         console.log("ERROR", err.message);
+//     });
 mongoose
     .connect(
-        "mongodb+srv://Rtroman14:Ryan1048@cluster0-cgyu2.mongodb.net/test?retryWrites=true&w=majority",
+        "mongodb+srv://Roman:Ryan1048@cluster0-kacxj.mongodb.net/test?retryWrites=true&w=majority",
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
     .then(() => {
