@@ -17,23 +17,8 @@ const commentRoutes = require("./routes/comments"),
     beachRoutes = require("./routes/beaches"),
     indexRoutes = require("./routes/index");
 
-// mongoose.connect("mongodb://localhost:27017/yelpBeach", { useNewUrlParser: true });
-// mongoose
-//     .connect(
-//         "mongodb+srv://Rtroman14:Ryan1048@cluster0-cgyu2.mongodb.net/test?retryWrites=true&w=majority",
-//         { useNewUrlParser: true, useUnifiedTopology: true }
-//     )
-//     .then(() => {
-//         console.log("Connected to DB!");
-//     })
-//     .catch(err => {
-//         console.log("ERROR", err.message);
-//     });
 mongoose
-    .connect(
-        "mongodb+srv://Roman:Ryan1048@cluster0-kacxj.mongodb.net/test?retryWrites=true&w=majority",
-        { useNewUrlParser: true, useUnifiedTopology: true }
-    )
+    .connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("Connected to DB!");
     })
@@ -76,4 +61,6 @@ app.use(indexRoutes);
 app.use("/beaches", beachRoutes); // defaults all routes to start with "/beaches"
 app.use("/beaches/:id/comments", commentRoutes); // defer to line 2 of /routes/comments.js
 
-app.listen(4000, () => console.log(`YelpBeach server started on port ${4000}!`));
+let port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log("YelpBeach server started!"));
