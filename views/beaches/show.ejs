@@ -1,0 +1,100 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-3">
+        <div id="map"></div>
+    </div>
+    <div class="col-md-9">
+        <div class="card mb-3">
+            <img class="card-img-top" src="<%= beach.image %>" alt="<%= beach.name %>" />
+            <div class="card-body">
+                <p class="float-right"> <i class="fas fa-map-marker-alt"></i>
+                    <%= beach.location %>
+                </p>
+                <h5 class="card-title-1"><%= beach.name %></h5>
+                <p class="card-author">
+                    <em>Submitted by: <%= beach.author.username %>,
+                        <%= moment(beach.createdAt).fromNow() %></em>
+                </p>
+                <hr />
+                <p class="card-text"><%= beach.description %></p>
+                <% if(currentUser && beach.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                <a class="btn btn-sm btn-outline-success" href="/beaches/<%= beach._id %>/edit">Edit</a>
+                <form class="inline-form" action="/beaches/<%= beach._id %>?_method=DELETE" method="POST"
+                    class="delete-form">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+                <% } %>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <a class="btn btn-blue" href="/beaches/<%= beach._id %>/comments/new">Add New
+                        Comment</a>
+                </div>
+                <hr />
+                <div class="row">
+                    <% beach.comments.forEach(function(comment){ %>
+                    <div class="col-md-12 mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="float-left">
+                                    <p class="card-title-1"><%= comment.author.username %></p>
+                                    <p class="card-text"><%= comment.text %></p>
+                                </div>
+                                <div class="float-right">
+                                    <p><%= moment(comment.createdAt).fromNow() %></p>
+                                    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                    <div class="float-right">
+                                        <a href="/beaches/<%= beach._id %>/comments/<%= comment._id %>/edit"
+                                            class="btn btn-sm btn-outline-success">Edit</a>
+                                        <form class="delete-form inline-form"
+                                            action="/beaches/<%=beach._id%>/comments/<%=comment._id%>?_method=DELETE"
+                                            method="POST">
+                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        const lat = <%= beach.lat %>;
+        const lng = <%= beach.lng %>;
+        const center = { lat: lat, lng: lng };
+        const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: center,
+            scrollwheel: false
+        });
+        const contentString = `
+    		<strong><%= beach.name %><br />
+    		<%= beach.location %></strong>
+    		<p><%= beach.description %></p>
+    	`
+        const infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        const marker = new google.maps.Marker({
+            position: center,
+            map: map
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbcum-YZzlbuTQqc8akzPsq3Etjf7uryM&callback=initMap"></script>
+
+<% include ../partials/footer %>

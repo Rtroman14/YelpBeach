@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<header class="jumbotron">
+    <div>
+        <h1 class="jumbotron-header">Discover YelpBeach</h1>
+        <p class="jumbotron-text">View our favorite beaches from around the world.</p>
+        <!-- <p>
+            <a class="btn btn-primary btn-sm" href="/beaches/new">Add New Beach</a>
+        </p> -->
+    </div>
+</header>
+
+<div class="row text-center">
+    <% beaches.forEach(function(beach){ %>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <a class="card-link" href="/beaches/<%= beach._id %>">
+            <div class="card card-index">
+                <img class="card-img-top" src="<%= beach.image %>" alt="<%= beach.name %>" />
+                <div class="card-body">
+                    <h5 class="card-title"><%= beach.name %></h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <% }); %>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <a class="card-link" href="/beaches/new">
+            <div class="card card-index card-1">
+                <img class="card-img-top card-add-new" src="" />
+                <div class="card-body card-body-1">
+                    <h5 class="card-title">Add Beach</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<% include ../partials/footer %>
