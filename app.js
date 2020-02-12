@@ -18,7 +18,7 @@ const commentRoutes = require("./routes/comments"),
     indexRoutes = require("./routes/index");
 
 mongoose
-    .connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("Connected to DB!");
     })
